@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Real-time Data</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+
+<body>
+  <h1>Input Page</h1>
+  <p> 1. First make sure, display.html file is opened by typing <b>localhost:3000/display.html</b> in the browser.<br>
+    2. Now, Write your messages in any of the text boxes and tick the checkboxes of whose message you want to send.<br>
+    3. Then press Send button, and your messages will be shown in the display page. <br>
+  </p>
+
+
+  <form onsubmit="return sendData()">
+    <div class="yo">
+      <input type="text" >
+      <input type="checkbox">
+    </div>
+    <div class="yo">
+      <input type="text" >
+      <input type="checkbox">
+    </div>
+    <div class="yo">
+      <input type="text" >
+      <input type="checkbox">
+    </div>
+    <div class="yo">
+      <input type="text" >
+      <input type="checkbox">
+    </div>
+    <div class="yo">
+      <input type="text" >
+      <input type="checkbox">
+    </div>
+    <div class="yo">
+      <input type="text" >
+      <input type="checkbox">
+    </div>
+
+    <!-- Add more input and checkbox fields here as needed -->
+
+    <button class="button-1 "type="submit">Send</button>
+  </form>
+
+  <!-- ... javascript part-->
+
+
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    // Connect to the Socket.IO server
+    const socket = io();
+
+    
+   // Send data to the server when the form is submitted and this function is called
+function sendData() {
+  const inputs = document.querySelectorAll('input[type="text"]');
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+  const data = [];
+
+  // Loop through the inputs and checkboxes to collect data for checked boxes
+  checkboxes.forEach((checkbox, index) => {
+    if (checkbox.checked) {
+      data.push({
+        value: inputs[index].value,
+        checked: true,
+      });
+    }
+  });
+
+  socket.emit('inputData', data);
+
+  // Clear input values and checkboxes
+  inputs.forEach((input) => (input.value = ''));
+  checkboxes.forEach((checkbox) => (checkbox.checked = false));
+
+  return false; // Prevent form submission
+}
+
+
+  
+  </script>
+</body>
+</html>

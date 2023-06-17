@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Display Page</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h1>Display Page</h1>
+  <div id="displayDiv"></div>
+
+
+
+<!-- JAVASCRIPT-->
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    // Connect to the Socket.IO server
+    const socket = io();
+
+    // Receive data from the server and display it
+    socket.on('displayData', (data) => {
+      const displayDiv = document.getElementById('displayDiv');
+      displayDiv.innerHTML = '';
+
+      data.forEach((item, index) => {
+        const checkbox = item.checked ? 'checked' : '';
+        const listItem = `${item.value}  <input type="checkbox" ${checkbox}><br>`;
+        displayDiv.innerHTML += `<label>${index + 1}. ${listItem}</label>`;
+      });
+    });
+  </script>
+
+</body>
+</html>
